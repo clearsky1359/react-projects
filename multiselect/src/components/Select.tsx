@@ -21,7 +21,7 @@ return(
         <button className={styles['clear-btn']}>&times;</button>
         <div className={styles.divider}></div>
         <div className={styles.caret}></div>
-        <ul className={`${styles.options}${styles.show}`}>
+        <ul className={`${styles.options} ${styles.show}`}>
             {options.map(option=>(<li className={styles.option} key={option.label}>{option.label}</li>))}
         </ul>
     </div>
