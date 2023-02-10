@@ -2,6 +2,7 @@
 const express=require('express')
 const mongoose=require('mongoose')
 const cors=require('cors')
+const morgan=require('morgan')
 require('dotenv').config()
 
 //app
@@ -10,6 +11,10 @@ const app=express()
 
 //db
 
+mongoose.connect(process.env.MONGO_URI,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true,
+}).then(()=>console.log('DB connected**********')).catch((err)=>console.log('DB connection error',err))
 
 //middleware
 app.use(morgan('dev'))
