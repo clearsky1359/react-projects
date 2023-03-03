@@ -17,7 +17,7 @@ function App() {
 
 const handleSubmit=(e)=>{
   e.preventDefault()
-  fetch('https://8080-clearsky135-reactprojec-pn9cq9isfm9.ws-us89.gitpod.io/createTest', {
+  fetch('https://8080-clearsky135-reactprojec-pn9cq9isfm9.ws-us89.gitpod.io/getAllTests', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -29,11 +29,16 @@ const handleSubmit=(e)=>{
   })
 })
 .then(res => res.json())
-.then(out => console.log(out))
-.catch(error => console.error(error));
-
+    .then(newData => {
+      setData(prevData => [...prevData, newData]);
+      setName('');
+      setEmail('');
+    })
+    .catch(error => console.error(error));
 
 }
+
+
 
   return (
     <>
@@ -44,6 +49,7 @@ const handleSubmit=(e)=>{
         <label htmlFor='email'>Email</label>
         <input id='email' value={email} onChange={e=>(setEmail(e.target.value))}/>
         <button>Submit</button>
+        <hr/><hr/>
       </form>
 
       {data && data.map((r,index) => (
