@@ -10,8 +10,9 @@ const app=express()
 
 //middleware
 app.use(express.json())
+app.use(cors({origin:'https://3000-clearsky135-reactprojec-pn9cq9isfm9.ws-us89.gitpod.io'}))
 
-//db
+
 mongoose.connect(process.env.URI).then(()=>console.log('Connected to DB'))
 
 //router
