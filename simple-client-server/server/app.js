@@ -1,6 +1,8 @@
 //import modules 
 const express=require('express')
 const mongoose=require('mongoose')
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 
 const cors=require('cors')
@@ -14,6 +16,7 @@ mongoose.connect('mongodb+srv://nikan:Nikan2017@cluster0.i9tio.mongodb.net/?retr
 
 
 //middleware
+
 
 app.use(express.json());
 app.use(function(req, res, next) {
@@ -34,8 +37,38 @@ const testSchema = new mongoose.Schema({
   }
 })
 
-const TestModel = mongoose.model('Test', testSchema);
+const imageSchema = new mongoose.Schema({
+  name: String,
+  data: String
+});
 
+const Image = mongoose.model('Image', imageSchema)
+
+const TestModel = mongoose.model('Test', testSchema);
+//////////////////////////////////////////////////////////////////////////
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+  const file = req.file;
+  console.log('Received file:', file.originalname);
+
+  // store the file in MongoDB
+  const image = new Image({
+    name: file.originalname,
+    data: file.buffer.toString('base64')
+  });
+
+  try {
+    await image.save();
+    console.log('Image stored in MongoDB');
+    res.json({ message: 'File uploaded successfully' });
+  } catch (err) {
+    console.error('Error storing image in MongoDB:', err);
+    res.status(500).json({ message: 'Error storing image in MongoDB' });
+  }
+});
+
+
+/////////////////////////////////////////////////////////////////
 
 
 //routes 
